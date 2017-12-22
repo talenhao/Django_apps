@@ -1,0 +1,11 @@
+{% extends 'accounts/base.html' %}
+
+{% block logged_in_nav %}
+    {% if not has_blog %}
+        <li><a href="{% url 'new-blog' %}">Create New Blog</a> </li>
+    {% else %}
+        {# ctx['blog'] #}
+        <li><a href="{% url 'update-blog' pk=blog.pk %}">Edit Blog</a> </li>
+        <li><a href="{% url 'new-blog-post' %}">Create a new post</a> </li>
+    {% endif %}
+{% endblock %}

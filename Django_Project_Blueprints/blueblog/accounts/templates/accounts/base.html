@@ -8,7 +8,10 @@
     {% block header %}
         <ul>
         {% if request.user.is_authenticated  %}
-            <li><a href="{% url 'new-blog' %}">Create New Blog</a> </li>
+            {# <a href="{% url 'new-blog' %}">Create New Blog</a> </li> #}
+            {% block logged_in_nav %}
+            
+            {% endblock %}
             <li><a href="{% url "logout" %}">Logout</a> </li>
         {% else %}
             <li><a href="{% url "login" %}">Login</a> </li>
