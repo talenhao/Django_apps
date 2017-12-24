@@ -23,12 +23,11 @@ from django.contrib.auth.views import LoginView
 from django.contrib.auth.views import logout
 
 from blog.views import NewBlogView
-
 from blog.views import HomeView
-
 from blog.views import UpdateBlogView
-
 from blog.views import NewBlogPostView
+from blog.views import UpdateBlogPostView
+from blog.views import BlogPostDetailView
 
 
 urlpatterns = [
@@ -41,4 +40,6 @@ urlpatterns = [
     url(r'^blog/new/$', NewBlogView.as_view(), name='new-blog'),
     url(r'^blog/(?P<pk>\d+)/update/$', UpdateBlogView.as_view(), name='update-blog'),
     url(r'^blog/post/new/$', NewBlogPostView.as_view(), name='new-blog-post'),
+    url(r'^blog/post/(?P<pk>\d+)/update/$', UpdateBlogPostView.as_view(), name='update-blog-post'),
+    url(r'^blog/post/(?P<pk>\d+)/$', BlogPostDetailView.as_view(), name='blog-post-detail'),
 ]

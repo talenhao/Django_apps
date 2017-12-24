@@ -8,16 +8,18 @@ from django.core.urlresolvers import reverse
 from django.utils.text import slugify
 
 from blog.models import Blog
+from blog.models import BlogPost
 from django.http.response import HttpResponseForbidden
 
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 
 from django.views.generic import TemplateView
-
 from django.views.generic import UpdateView
+from django.views.generic import DetailView
 
 from blog.forms import BlogPostForm
+
 
 class NewBlogView(CreateView):
     form_class = BlogForm
@@ -50,7 +52,9 @@ class HomeView(TemplateView):
         if self.request.user.is_authenticated():
             if Blog.objects.filter(owner=self.request.user).exists():
                 ctx['has_blog'] = True
-                ctx['blog'] = Blog.objects.get(owner=self.request.user)
+                blog = Blog.objects.get(owner=self.request.user)
+                ctx['blog'] = blog
+                ctx['blog_posts'] = BlogPost.objects.filter(blog=blog)
             # ctx['has_blog'] = Blog.objects.filter(owner=self.request.user).exists()
         return ctx
 
@@ -81,3 +85,24 @@ class NewBlogPostView(CreateView):
         blog_post_obj.is_published = True
         blog_post_obj.save()
         return HttpResponseRedirect(reverse('home'))
+
+
+class UpdateBlogPostView(UpdateView):
+    form_class = BlogPostForm
+    template_name = 'blog/blog_post.html'
+    success_url = '/'
+    model = BlogPost
+    
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(UpdateBlogPostView, self).dispatch(request, *args, **kwargs)
+    
+    def get_queryset(self):
+        queryset = super(UpdateBlogPostView, self).get_queryset()
+        return queryset.filter(blog__owner = self.request.user)
+    
+
+class BlogPostDetailView(DetailView):
+    model = BlogPost
+    template_name = 'blog/blog_post_details.html'
+

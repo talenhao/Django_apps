@@ -9,3 +9,13 @@
         <li><a href="{% url 'new-blog-post' %}">Create a new post</a> </li>
     {% endif %}
 {% endblock %}
+
+{% block content %}
+    <h1>Your blog posts</h1>
+    <ul>
+        {% for blog_post in blog_posts %}
+            <li><a href="{% url "blog-post-detail" pk=blog_post.pk %}">{{ blog_post.title }}</a>  | <a href="{% url 'update-blog-post' blog_post.pk %}">Edit Post</a></li>
+        {% endfor %}
+
+    </ul>
+{% endblock %}
