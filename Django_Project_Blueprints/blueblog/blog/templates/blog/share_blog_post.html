@@ -1,0 +1,14 @@
+{% extends 'accounts/base.html' %}
+
+{% block content %}
+    {% if can_be_shared_with %}
+        <h2>Share {{ post.title }}</h2>
+        <ul>
+
+        </ul>
+    {% endif %}
+
+    {% if is_shared_with %}
+
+    {% endif %}
+{% endblock %}
