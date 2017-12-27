@@ -1,0 +1,34 @@
+digraph blueblog{
+    "base.html" -> "login.html"[label="extend"]
+    "base.html" -> "user_registration.html" [label="extend"]
+    "base.html" -> "logout.html" [label="extend"]
+    "base.html" -> "home.html" [label="extend"]
+    
+    user_registration -> "UserRegistrationView.as_view()" -> "user_registration.html"
+    login -> "LoginView.as_view()" -> "login.html"
+    logout -> "logout.as_view()" -> "logout.html"
+    request -> home -> "HomeView.as_view()" -> "home.html"
+    
+    
+    
+    "home.html" -> "blog-settings.html" [label="link"]
+    "home.html" -> "blog_post.html" [label="link"]
+    "home.html" -> "blog_post_details.html" [label="link"]
+    "home.html" -> "share_blog_post.html" [label="link"]
+    
+    "base.html" -> "blog-settings.html" [label="extend"]
+    "base.html" -> "blog_post.html" [label="extend"]
+    "base.html" -> "blog_post_details.html" [label="extend"]
+    "base.html" -> "share_blog_post.html" [label="extend"]
+    
+    new_blog -> "NewBlogView.as_view()" -> "blog-settings.html" -> home
+    update_blog -> "UpdateBlogView.as_view()" -> "blog-settings.html"
+    new_blog_post -> "NewBlogPostView.as_view()" -> "blog_post.html" -> home
+    update_blog_post -> "UpdateBlogPostView.as_view()" ->  "blog_post.html"
+    blog_post_detail -> "BlogPostDetailView.as_view()" -> "blog_post_details.html"
+    
+    
+    share_blog_post -> "ShareBlogPostView.as_view()" -> "share_blog_post.html"
+    share_post_with_blog -> "SharePostWithBlog.as_view()" -> home
+    stop_share_post_with_blog -> "StopSharingPostWithBlog.as_view()" -> home
+}
