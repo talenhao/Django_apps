@@ -1,0 +1,10 @@
+{% extends 'links/links-base.html' %}
+
+{% block content %}
+<H1>New Submission</H1>
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+    <input value="Submit" type="submit">
+    </form>
+{% endblock %}

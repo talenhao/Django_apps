@@ -32,6 +32,8 @@ from blog.views import ShareBlogPostView
 from blog.views import SharePostWithBlog
 from blog.views import StopSharingPostWithBlog
 
+from links.views import NewSubmissionView
+
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -50,4 +52,9 @@ urlpatterns = [
         SharePostWithBlog.as_view(), name='share_post_with_blog'),
     url(r'^blog/post/(?P<post_pk>\d+)/stop/share/to/(?P<blog_pk>\d+)/$',
         StopSharingPostWithBlog.as_view(), name='stop_share_post_with_blog'),
+    # for links
+    # url(r'^links$', )
+    url(r'^new-submission/$', NewSubmissionView.as_view(), name='new-submission'),
+    
+    
 ]

@@ -2,10 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>blue blog</title>
+    {% block title %}
+        <title>blue blog</title>
+    {% endblock %}
 </head>
 <body>
     {% block header %}
+    <nav>
         <ul>
         {% if request.user.is_authenticated  %}
             {# <a href="{% url 'new-blog' %}">Create New Blog</a> </li> #}
@@ -18,6 +21,7 @@
             <li><a href="{% url "user_registration" %}">Register Account</a> </li>
         {% endif %}
         </ul>
+    </nav>
     {% endblock %}
 
     {% block content %}

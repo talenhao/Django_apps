@@ -1,0 +1,9 @@
+{% extends 'accounts/base.html' %}
+
+{% block title %}
+<title>DISCUSS</title>
+{% endblock %}
+
+{% block logged_in_nav %}
+    <li><a href="{% url "new-submission" %}">Submit New Link</a></li>
+{% endblock %}
