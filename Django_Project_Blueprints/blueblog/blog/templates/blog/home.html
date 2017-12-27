@@ -14,8 +14,21 @@
     <h1>Your blog posts</h1>
     <ul>
         {% for blog_post in blog_posts %}
-            <li><a href="{% url "blog-post-detail" pk=blog_post.pk %}">{{ blog_post.title }}</a>  | <a href="{% url 'update-blog-post' blog_post.pk %}">Edit Post</a></li>
+            <li><a href="{% url "blog-post-detail" pk=blog_post.pk %}">{{ blog_post.title }}</a> |
+                <a href="{% url 'update-blog-post' blog_post.pk %}">Edit Post</a> |
+                <a href="{% url 'share_blog_post' blog_post.pk %}">Share Post</a>
+            </li>
         {% endfor %}
 
     </ul>
+    {% if shared_posts %}
+        <h2>Shared Blog Posts</h2>
+        <ul>
+        {% for shared_post in shared_posts %}
+            <li>
+                <a href="{% url 'blog-post-detail' pk=shared_post.pk %}">{{ shared_post.title }}</a>
+            </li>
+        {% endfor %}
+        </ul>
+    {% endif %}
 {% endblock %}

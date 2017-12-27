@@ -17,6 +17,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic import TemplateView
 from django.views.generic import UpdateView
 from django.views.generic import DetailView
+from django.views.generic import View
 
 from blog.forms import BlogPostForm
 
@@ -55,6 +56,8 @@ class HomeView(TemplateView):
                 blog = Blog.objects.get(owner=self.request.user)
                 ctx['blog'] = blog
                 ctx['blog_posts'] = BlogPost.objects.filter(blog=blog)
+                # display shared posts
+                ctx['shared_posts'] = blog.shared_posts.all()
             # ctx['has_blog'] = Blog.objects.filter(owner=self.request.user).exists()
         return ctx
 
@@ -123,3 +126,34 @@ class ShareBlogPostView(TemplateView):
         return {'post': blog_post,
                 'is_shared_with': currently_shared_with,
                 'can_be_shared_with': can_be_shared_with}
+
+
+class SharePostWithBlog(View):
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(SharePostWithBlog, self).dispatch(request, *args, **kwargs)
+
+    def get(self, request, post_pk, blog_pk):
+        blog_post = BlogPost.objects.get(pk=post_pk)
+        if blog_post.blog.owner != request.user:
+            return HttpResponseForbidden('You can only share posts that you created!')
+        blog = Blog.objects.get(pk=blog_pk)
+        blog_post.shared_to.add(blog)
+
+        return HttpResponseRedirect(reverse('home'))
+
+
+class StopSharingPostWithBlog(View):
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(StopSharingPostWithBlog, self).dispatch(request, *args, **kwargs)
+
+    def get(self, request, blog_pk, post_pk):
+        blog_post = BlogPost.objects.get(pk=post_pk)
+        if blog_post.blog.owner != request.user:
+            return HttpResponseForbidden("You can only stop sharing posts that you created!")
+
+        blog = Blog.objects.get(pk=blog_pk)
+        blog_post.shared_to.remove(blog)
+
+        return HttpResponseRedirect(reverse('home'))
