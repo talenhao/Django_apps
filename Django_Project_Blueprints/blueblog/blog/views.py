@@ -33,7 +33,7 @@ class NewBlogView(CreateView):
         
         blog_obj.save()
         return HttpResponseRedirect(reverse('home'))
-    
+
     # 多个blog检测
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):

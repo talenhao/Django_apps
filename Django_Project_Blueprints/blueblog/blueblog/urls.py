@@ -17,7 +17,7 @@ from django.conf.urls import url
 from django.contrib import admin
 
 from accounts.views import UserRegistrationView
-# from django.views.generic import TemplateView
+from django.views.generic import TemplateView
 
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.views import logout
@@ -33,6 +33,8 @@ from blog.views import SharePostWithBlog
 from blog.views import StopSharingPostWithBlog
 
 from links.views import NewSubmissionView
+from links.views import SubmissionDetailView
+from links.views import NewCommentView
 
 
 urlpatterns = [
@@ -53,8 +55,9 @@ urlpatterns = [
     url(r'^blog/post/(?P<post_pk>\d+)/stop/share/to/(?P<blog_pk>\d+)/$',
         StopSharingPostWithBlog.as_view(), name='stop_share_post_with_blog'),
     # for links
-    # url(r'^links$', )
+    url(r'^links/$', TemplateView.as_view(template_name='links/home.html'), name='links-home'),
     url(r'^new-submission/$', NewSubmissionView.as_view(), name='new-submission'),
-    
+    url(r'^submission/(?P<pk>\d+)/$', SubmissionDetailView.as_view(), name='submission-detail'),
+    url(r'^new-comment/$', NewCommentView.as_view(), name='new-comment'),
     
 ]
