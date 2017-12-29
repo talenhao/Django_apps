@@ -1,0 +1,10 @@
+{% extends 'accounts/base.html' %}
+
+{% block content %}
+    <h1>Reply to comment</h1>
+    <p><b>You are reply to:</b> XXX </p>
+    <form action="" method="post">{% csrf_token %}
+        {{ form.as_p }}
+    <input value="Reply" type="submit">
+    </form>
+{% endblock %}

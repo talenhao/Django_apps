@@ -36,6 +36,9 @@ from links.views import NewSubmissionView
 from links.views import SubmissionDetailView
 from links.views import NewCommentView
 
+from django.conf import settings
+from django.conf.urls import include, url
+
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -61,3 +64,10 @@ urlpatterns = [
     url(r'^new-comment/$', NewCommentView.as_view(), name='new-comment'),
     
 ]
+
+
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns = [
+        url(r'^__debug__/', include(debug_toolbar.urls)),
+    ] + urlpatterns
