@@ -2,7 +2,7 @@
 
 {% block content %}
     <h1>Reply to comment</h1>
-    <p><b>You are reply to:</b> XXX </p>
+    <p><b>You are reply to:</b><li>{{ parent_comment.body }}</li> </p>
     <form action="" method="post">{% csrf_token %}
         {{ form.as_p }}
     <input value="Reply" type="submit">

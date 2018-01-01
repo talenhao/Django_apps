@@ -82,7 +82,7 @@ class NewCommentView(CreateView):
 
 class NewCommentReplyView(CreateView):
     form_class = CommentModelForm
-    http_method_names = ('post',)
+    # http_method_names = ('post',)
     template_name = 'links/comment_reply.html'
 
     @method_decorator(login_required)
@@ -92,8 +92,9 @@ class NewCommentReplyView(CreateView):
     # before submit
     def get_context_data(self, **kwargs):
         ctx = super(NewCommentReplyView, self).get_context_data(**kwargs)
-        parent_comment_pk = Comment.objects.get(pk=self.request.GET('parent_comment_pk'))
-        ctx['parent_comment_pk'] = parent_comment_pk
+        # GET使用中括号
+        parent_comment_ob = Comment.objects.get(pk=self.request.GET['parent_comment_pk'])
+        ctx['parent_comment'] = parent_comment_ob
         return ctx
 
     def get_initial(self):
@@ -107,11 +108,11 @@ class NewCommentReplyView(CreateView):
     # after submit
     def form_valid(self, form):
         parent_link = Link.objects.get(pk=form.cleaned_data['link_pk'])
-        parent_comment = Comment.objects.get(pk=form.cleaned_data['parent_comment_pk'])
+        parent_comment_cd = Comment.objects.get(pk=form.cleaned_data['parent_comment_pk'])
         new_comment = form.save(commit=False)
         new_comment.commented_by = self.request.user
         new_comment.commented_to = parent_link
-        new_comment.in_reply_to = parent_comment
+        new_comment.in_reply_to = parent_comment_cd
         new_comment.save()
         return HttpResponseRedirect(reverse('submission-detail', kwargs={'pk': parent_link.pk}))
 

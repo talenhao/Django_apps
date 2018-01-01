@@ -15,6 +15,6 @@ class Link(models.Model):
 class Comment(models.Model):
     body = models.TextField()
     commented_to = models.ForeignKey(Link)
-    in_reply_to = models.ManyToManyField('self', null=True)
+    in_reply_to = models.ForeignKey('self', null=True)
     commented_by = models.ForeignKey(User)
     commented_on = models.DateTimeField(auto_now_add=True, editable=False)

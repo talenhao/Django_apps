@@ -14,7 +14,7 @@
     <p><h2>Comments</h2></p>
     <ul>
         {% for comment in comments %}
-            <li>{{ comment.body }}</li>
+            <li>{{ comment.body }} (<a href="{% url "new-comment-reply" %}?parent_comment_pk={{ comment.pk }}&link_pk={{ object.pk }}">Reply</a>)</li>
         {% endfor %}
     </ul>
 {% endblock %}
