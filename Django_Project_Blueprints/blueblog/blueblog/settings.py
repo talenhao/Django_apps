@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'accounts',
     'blog',
     'links',
+    'captcha',
 ]
 
 MIDDLEWARE = [
@@ -150,3 +151,7 @@ DEBUG_TOOLBAR_CONFIG = {
     'SQL_WARNING_THRESHOLD': 100,   # milliseconds
     'JQUERY_URL': '//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js',
 }
+
+RECAPTCHA_PUBLIC_KEY = '6Lfr_D4UAAAAACXte0LgsoEKx373A_QEHKvy_3yn'
+RECAPTCHA_PRIVATE_KEY = '6Lfr_D4UAAAAABYmk-kG2wDS6GUV89I-ih7oOhqo'
+NOCAPTCHA = True
