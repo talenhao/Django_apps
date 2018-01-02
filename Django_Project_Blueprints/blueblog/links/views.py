@@ -3,6 +3,8 @@ from django.shortcuts import render
 # Create your views here.
 from django.views.generic import CreateView
 from django.views.generic import DetailView
+from django.views.generic import TemplateView
+from django.views.generic import View
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from links.models import Link
@@ -11,6 +13,8 @@ from django.core.urlresolvers import reverse
 
 from links.forms import CommentModelForm
 from links.models import Comment
+
+from django.utils import timezone
 
 
 class NewSubmissionView(CreateView):
@@ -116,3 +120,38 @@ class NewCommentReplyView(CreateView):
         new_comment.in_reply_to = parent_comment_cd
         new_comment.save()
         return HttpResponseRedirect(reverse('submission-detail', kwargs={'pk': parent_link.pk}))
+
+
+class HomeView(TemplateView):
+    template_name = 'links/home.html'
+
+    def get_context_data(self, **kwargs):
+        ctx = super(HomeView, self).get_context_data(**kwargs)
+        # ranking submission
+        now = timezone.now()
+        submissions = Link.objects.all()
+        for submission in submissions:
+            submission_upvote_count = submission.up_votes.count()
+            submission_comment_count = submission.comment_set.count()
+            submission_submited_delta = now - submission.submitted_on
+            submission_submited_days = submission_submited_delta.days
+            submission_rank = submission_upvote_count + submission_comment_count - submission_submited_days
+            submission.rank = submission_rank
+        sorted_submissions = sorted(submissions, key=lambda x: x.rank, reverse=True)
+        # ctx['submissions'] = Link.objects.all()
+        ctx['submissions'] = sorted_submissions
+        return ctx
+
+
+class UpvoteSubmissionView(View):
+    def get(self, request, link_pk, **kwargs):
+        link = Link.objects.get(pk=link_pk)
+        link.up_votes.add(request.user)
+        return HttpResponseRedirect(reverse('links-home'))
+
+
+class RemovevoteSubmissionView(View):
+    def get(self, request, link_pk, **kwargs):
+        link = Link.objects.get(pk=link_pk)
+        link.up_votes.remove(request.user)
+        return HttpResponseRedirect(reverse('links-home'))

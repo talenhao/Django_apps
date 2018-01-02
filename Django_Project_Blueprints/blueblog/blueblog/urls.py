@@ -36,6 +36,9 @@ from links.views import NewSubmissionView
 from links.views import SubmissionDetailView
 from links.views import NewCommentView
 from links.views import NewCommentReplyView
+from links.views import HomeView as LinkHomeView
+from links.views import UpvoteSubmissionView
+from links.views import RemovevoteSubmissionView
 
 from django.conf import settings
 from django.conf.urls import include, url
@@ -59,11 +62,15 @@ urlpatterns = [
     url(r'^blog/post/(?P<post_pk>\d+)/stop/share/to/(?P<blog_pk>\d+)/$',
         StopSharingPostWithBlog.as_view(), name='stop_share_post_with_blog'),
     # for links
-    url(r'^links/$', TemplateView.as_view(template_name='links/home.html'), name='links-home'),
+    # url(r'^links/$', TemplateView.as_view(template_name='links/home.html'), name='links-home'),
+    url(r'^links/$', LinkHomeView.as_view(), name='links-home'),
     url(r'^new-submission/$', NewSubmissionView.as_view(), name='new-submission'),
     url(r'^submission/(?P<pk>\d+)/$', SubmissionDetailView.as_view(), name='submission-detail'),
     url(r'^new-comment/$', NewCommentView.as_view(), name='new-comment'),
     url(r'^new-comment-reply/$', NewCommentReplyView.as_view(), name='new-comment-reply'),
+    # votes
+    url(r'^upvote/(?P<link_pk>\d+)/$', UpvoteSubmissionView.as_view(), name='upvote-submission'),
+    url(r'^upvote/(?P<link_pk>\d+)/remove/$', RemovevoteSubmissionView.as_view(), name='remove-upvote-submission'),
 ]
 
 
