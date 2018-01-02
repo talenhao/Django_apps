@@ -45,7 +45,8 @@ class SubmissionDetailView(DetailView):
     def get_context_data(self, **kwargs):
         ctx = super(SubmissionDetailView, self).get_context_data(**kwargs)
         # 当前已经存在的comments
-        submission_comments = Comment.objects.filter(commented_to=self.object)
+        # 没有回复的comments
+        submission_comments = Comment.objects.filter(commented_to=self.object, in_reply_to__isnull=True)
         ctx['comments'] = submission_comments
         # Display new comment from
         ctx['comment_form'] = CommentModelForm(initial={"link_pk": self.object.pk})
@@ -115,5 +116,3 @@ class NewCommentReplyView(CreateView):
         new_comment.in_reply_to = parent_comment_cd
         new_comment.save()
         return HttpResponseRedirect(reverse('submission-detail', kwargs={'pk': parent_link.pk}))
-
-
