@@ -40,8 +40,10 @@ from links.views import HomeView as LinkHomeView
 from links.views import UpvoteSubmissionView
 from links.views import RemovevoteSubmissionView
 
+from data_collector.views import StatusView
+
 from django.conf import settings
-from django.conf.urls import include, url
+from django.conf.urls import include
 
 
 urlpatterns = [
@@ -71,6 +73,9 @@ urlpatterns = [
     # votes
     url(r'^upvote/(?P<link_pk>\d+)/$', UpvoteSubmissionView.as_view(), name='upvote-submission'),
     url(r'^upvote/(?P<link_pk>\d+)/remove/$', RemovevoteSubmissionView.as_view(), name='remove-upvote-submission'),
+
+    # data_collector
+    url(r'^data_collector/$', StatusView.as_view(), name='status'),
 ]
 
 

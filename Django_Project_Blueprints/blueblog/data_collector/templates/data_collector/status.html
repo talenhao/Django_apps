@@ -1,0 +1,28 @@
+{% extends "accounts/base.html" %}
+
+{% load humanize %}
+
+{% block content %}
+<h1>Status</h1>
+    <table rules="all" frame="border">
+        <tbody>
+            <tr>
+                <th>Node name</th>
+                <th>Data type</th>
+                <th>Data value</th>
+                <th>Last updated</th>
+            </tr>
+        {% for node_name, data_type_to_data_point_map in status_data_dict.items %}
+            {% for data_type, data_point in data_type_to_data_point_map.items %}
+                <tr>
+                    <td>{% if forloop.first %}{{ node_name }}{% endif %}</td>
+                    <td>{{ data_type }}</td>
+                    <td>{{ data_point.data_value }}</td>
+                    <td>{{ data_point.datetime|naturaltime }}</td>
+                </tr>
+            {% endfor %}
+        {% endfor %}
+        
+        </tbody>
+    </table>
+{% endblock %}

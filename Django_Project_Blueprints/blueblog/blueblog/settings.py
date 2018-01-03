@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'blog',
     'links',
     'captcha',
+    'data_collector',
+    'django.contrib.humanize',
 ]
 
 MIDDLEWARE = [
