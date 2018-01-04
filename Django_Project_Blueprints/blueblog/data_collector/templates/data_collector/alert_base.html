@@ -1,0 +1,10 @@
+{% extends "accounts/base.html" %}
+
+{% block title %}
+<title>Django nagios</title>
+{% endblock %}
+
+{% block logged_in_nav %}
+<li><a href="{% url "status" %}">Status</a></li>
+<li><a href="{% url "alerts_list" %}">Alerts</a></li>
+{% endblock %}

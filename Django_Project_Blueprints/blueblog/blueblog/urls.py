@@ -40,7 +40,7 @@ from links.views import HomeView as LinkHomeView
 from links.views import UpvoteSubmissionView
 from links.views import RemovevoteSubmissionView
 
-from data_collector.views import StatusView
+from data_collector.views import StatusView, AlertListView, UpdateAlertView, CreateAlertView, DeleteAlertView
 
 from django.conf import settings
 from django.conf.urls import include
@@ -76,6 +76,10 @@ urlpatterns = [
 
     # data_collector
     url(r'^data_collector/$', StatusView.as_view(), name='status'),
+    url(r'^data_collector/alerts/$', AlertListView.as_view(), name='alerts_list'),
+    url(r'^data_collector/new-alert/$', CreateAlertView.as_view(), name='new_alert'),
+    url(r'^data_collector/(?P<pk>\d+)/update-alert/$', UpdateAlertView.as_view(), name='update_alert'),
+    url(r'^data_collector/(?P<pk>\d+)/delete-alert/$', DeleteAlertView.as_view(), name='delete_alert'),
 ]
 
 

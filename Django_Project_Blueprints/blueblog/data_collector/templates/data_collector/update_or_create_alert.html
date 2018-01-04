@@ -1,0 +1,17 @@
+{% extends 'data_collector/alert_base.html' %}
+
+{% block content %}
+<H1>
+    {% if object %}
+        Update Alert
+    {% else %}
+        Create Alert
+    {% endif %}
+</H1>
+
+    <form action="" method="post">{% csrf_token %}
+        {{ form.as_p }}
+    <input type="submit" value="{% if object %}Update{% else %}Create{% endif %}"/>
+    <a href="{% url "alerts_list" %}">Cancel</a>
+    </form>
+{% endblock %}
