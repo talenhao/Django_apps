@@ -41,6 +41,8 @@ from links.views import UpvoteSubmissionView
 from links.views import RemovevoteSubmissionView
 
 from data_collector.views import StatusView, AlertListView, UpdateAlertView, CreateAlertView, DeleteAlertView
+from data_collector.views import RecordDataApiView
+from django.views.decorators.csrf import csrf_exempt
 
 from django.conf import settings
 from django.conf.urls import include
@@ -80,6 +82,8 @@ urlpatterns = [
     url(r'^data_collector/new-alert/$', CreateAlertView.as_view(), name='new_alert'),
     url(r'^data_collector/(?P<pk>\d+)/update-alert/$', UpdateAlertView.as_view(), name='update_alert'),
     url(r'^data_collector/(?P<pk>\d+)/delete-alert/$', DeleteAlertView.as_view(), name='delete_alert'),
+    # The csrf_exempt decorator is used because, by default, Django uses CSRF protection for POST requests.
+    url(r'^record/$', csrf_exempt(RecordDataApiView.as_view()), name='record')
 ]
 
 

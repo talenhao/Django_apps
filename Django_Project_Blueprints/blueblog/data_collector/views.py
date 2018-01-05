@@ -4,6 +4,12 @@ from django.core.urlresolvers import reverse
 from django.views.generic import TemplateView, ListView, CreateView, UpdateView, DeleteView
 # Create your views here.
 from data_collector.models import DataPoint, Alert
+# API endpoint
+from django.forms.models import modelform_factory
+from django.http.response import HttpResponse
+from django.http.response import HttpResponseBadRequest
+from django.http.response import HttpResponseForbidden
+from django.views.generic import View
 
 
 class StatusView(TemplateView):
@@ -70,3 +76,18 @@ class DeleteAlertView(DeleteView):
 
     def get_success_url(self):
         return reverse('alerts_list')
+
+
+# API endpoint
+class RecordDataApiView(View):
+    def post(self, request, *args, **kwargs):
+        # Check if the secret key matches
+        if request.META.get('HTTP_AUTH_SECRET') != 'supersecretkey':
+            return HttpResponseForbidden('Auth key error.')
+        form_class = modelform_factory(DataPoint, fields=['node_name', 'data_type', 'data_value'])
+        form = form_class(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponse()
+        else:
+            return HttpResponseBadRequest()
