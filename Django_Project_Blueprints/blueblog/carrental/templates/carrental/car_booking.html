@@ -1,0 +1,9 @@
+{% extends 'carrental/car_base.html' %}
+
+{% block content %}
+<h1>Book {{ car.name }}</h1>
+    <form action="" method="post">{% csrf_token %}
+        {{ form.as_p }}
+    <input value="Book" type="submit">
+    </form>
+{% endblock %}

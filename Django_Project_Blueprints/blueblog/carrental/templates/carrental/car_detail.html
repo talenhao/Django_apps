@@ -1,0 +1,13 @@
+{% extends 'carrental/car_base.html' %}
+
+{% block content %}
+    {% if booking_success %}
+        <em>You are booking successfully. Someone from our staff will contect you shortly.</em>
+    {% endif %}
+    <h1>{{ object.name }}</h1>
+    <img src="{{ object.image.url }}" />
+    <p>{{ object.description }}</p>
+    <p>${{ object.daily_rent }} / day</p>
+
+    <p><a href="{% url 'car_booking' pk=object.pk %}">Booking now!</a></p>
+{% endblock %}

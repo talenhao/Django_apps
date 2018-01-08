@@ -1,0 +1,20 @@
+{% extends 'carrental/car_base.html' %}
+
+{% block content %}
+<h1>Our Car</h1>
+    <ul class="car-list">
+        <li class="car-list-item">
+            {% for car in cars %}
+                <div class="image">
+                    <img src="{{ car.image.url }}" />
+                </div>
+                <div class="name">
+                    <a href="{{ car.get_absolute_url }}">{{ car.name }}</a>
+                </div>
+                <div class="rent">
+                    ${{ car.daily_rent }} / day
+                </div>
+            {% endfor %}
+        </li>
+    </ul>
+{% endblock %}

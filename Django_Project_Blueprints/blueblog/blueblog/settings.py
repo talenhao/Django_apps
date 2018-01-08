@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'captcha',
     'data_collector',
     'django.contrib.humanize',
+    'carrental',
 ]
 
 MIDDLEWARE = [
@@ -157,3 +158,6 @@ DEBUG_TOOLBAR_CONFIG = {
 RECAPTCHA_PUBLIC_KEY = '6Lfr_D4UAAAAACXte0LgsoEKx373A_QEHKvy_3yn'
 RECAPTCHA_PRIVATE_KEY = '6Lfr_D4UAAAAABYmk-kG2wDS6GUV89I-ih7oOhqo'
 NOCAPTCHA = True
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'

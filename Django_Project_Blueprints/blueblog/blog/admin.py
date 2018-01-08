@@ -17,6 +17,7 @@ admin.site.register(Blog, BlogAdmin)
 
 class BlogPostAdmin(admin.ModelAdmin):
     list_filter = ('blog', 'title', 'slug', 'body', 'is_published')
+    list_display = ('title', 'slug', 'is_published')
 
 
 admin.site.register(BlogPost, BlogPostAdmin)
